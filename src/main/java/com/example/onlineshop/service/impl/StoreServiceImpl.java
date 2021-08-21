@@ -54,6 +54,10 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreServiceModel addProduct(StoreServiceModel storeServiceModel) {
-        return null;
+        StoreEntity newProduct = this.modelMapper.map(storeServiceModel, StoreEntity.class);
+        if (newProduct == null){
+            throw new ProductIdNotValid("Cannot persist model to the database");
+        }
+        return this.modelMapper.map(this.storeRepository.saveAndFlush(newProduct), StoreServiceModel.class);
     }
 }
