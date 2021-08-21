@@ -1,4 +1,4 @@
-package com.example.onlineshop.entity;
+package com.example.onlineshop.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
