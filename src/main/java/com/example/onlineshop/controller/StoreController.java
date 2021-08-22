@@ -1,6 +1,7 @@
 package com.example.onlineshop.controller;
 
 import com.example.onlineshop.common.ApiResponse;
+import com.example.onlineshop.model.binding.store.NewProductBindingModel;
 import com.example.onlineshop.model.binding.store.ProductBindingModel;
 import com.example.onlineshop.model.view.store.StoreViewModel;
 import com.example.onlineshop.service.StoreService;
@@ -45,13 +46,23 @@ public class StoreController {
         }
         return modelAndView;
     }
+
     @RequestMapping(value = "/load/{productID}", method = RequestMethod.POST)
     public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productID") Long productID, @ModelAttribute @Valid ProductBindingModel productBindingModel, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()){
-            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Quantity is not valid"), HttpStatus.CONFLICT);
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Quantity is not valid"), HttpStatus.BAD_REQUEST);
         }
         storeService.loadProduct(productID, productBindingModel.getQuantity());
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/product/new", method = RequestMethod.GET)
+    public ModelAndView newProductGet(Model model) {
+        ModelAndView modelAndView = new ModelAndView("new-product");
+        if (!model.containsAttribute("productEditBindingModel")) {
+            modelAndView.addObject("productEditBindingModel", new NewProductBindingModel());
+        }
+        return modelAndView;
     }
 
 
