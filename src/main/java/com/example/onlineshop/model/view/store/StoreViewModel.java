@@ -9,6 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class StoreViewModel {
 
+    private Long id;
     private String name;
     private int quantity;
 }

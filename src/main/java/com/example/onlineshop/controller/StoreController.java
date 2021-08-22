@@ -7,6 +7,8 @@ import com.example.onlineshop.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,9 +34,23 @@ public class StoreController {
         return modelAndView;
     }
 
-    @PostMapping("/update/{productID}")
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productID") Long productID, @RequestParam Integer quantity) {
-        storeService.loadProduct(productID, quantity);
+    @GetMapping("/update/{productID}")
+    public ModelAndView updateProductGET(@PathVariable("productID") Long productId, Model model) {
+        ModelAndView modelAndView = new ModelAndView("load-product");
+
+        StoreViewModel productViewModel = this.storeService.getSingleProduct(productId);
+        modelAndView.addObject("productEditModel", productViewModel);
+        if (!model.containsAttribute("productEditBindingModel")) {
+            modelAndView.addObject("productEditBindingModel", new ProductBindingModel());
+        }
+        return modelAndView;
+    }
+    @RequestMapping(value = "/load/{productID}", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productID") Long productID, @ModelAttribute @Valid ProductBindingModel productBindingModel, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "Quantity is not valid"), HttpStatus.CONFLICT);
+        }
+        storeService.loadProduct(productID, productBindingModel.getQuantity());
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Product has been updated"), HttpStatus.OK);
     }
 

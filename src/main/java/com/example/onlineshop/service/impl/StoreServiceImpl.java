@@ -60,4 +60,12 @@ public class StoreServiceImpl implements StoreService {
         }
         return this.modelMapper.map(this.storeRepository.saveAndFlush(newProduct), StoreServiceModel.class);
     }
+
+    @Override
+    public StoreViewModel getSingleProduct(Long productId) {
+        if (!this.storeRepository.existsById(productId)){
+            throw new ProductIdNotValid("There is not a product with this id: " + productId);
+        }
+        return this.modelMapper.map(this.storeRepository.findById(productId).get(), StoreViewModel.class);
+    }
 }

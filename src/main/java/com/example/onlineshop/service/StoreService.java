@@ -11,5 +11,6 @@ public interface StoreService {
     List<StoreViewModel> checkProductsNotInStock();
     StoreServiceModel loadProduct(Long productId, int quantity);
     StoreServiceModel addProduct(StoreServiceModel storeServiceModel);
+    StoreViewModel getSingleProduct(Long productId);
 
 }
