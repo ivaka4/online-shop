@@ -1,4 +1,4 @@
-package com.example.onlineshop.model.view;
+package com.example.onlineshop.model.view.store;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

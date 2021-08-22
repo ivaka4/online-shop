@@ -1,7 +1,7 @@
 package com.example.onlineshop.service;
 
 import com.example.onlineshop.model.service.StoreServiceModel;
-import com.example.onlineshop.model.view.StoreViewModel;
+import com.example.onlineshop.model.view.store.StoreViewModel;
 
 import java.util.List;
 

@@ -1,10 +1,12 @@
 package com.example.onlineshop.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @Entity
 @Getter
@@ -19,8 +21,12 @@ public class StoreEntity {
     private String productName;
 
     @Column(nullable = false)
-    @Min(value = 1)
+    @Min(value = 0)
     private int quantity;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private List<CartEntity> carts;
 
 
 

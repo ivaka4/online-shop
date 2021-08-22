@@ -3,7 +3,7 @@ package com.example.onlineshop.service.impl;
 import com.example.onlineshop.exception.storeEx.ProductIdNotValid;
 import com.example.onlineshop.model.entity.StoreEntity;
 import com.example.onlineshop.model.service.StoreServiceModel;
-import com.example.onlineshop.model.view.StoreViewModel;
+import com.example.onlineshop.model.view.store.StoreViewModel;
 import com.example.onlineshop.repository.StoreRepository;
 import com.example.onlineshop.service.StoreService;
 import org.modelmapper.ModelMapper;
