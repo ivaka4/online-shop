@@ -2,7 +2,7 @@ package com.example.onlineshop.model.binding.cart;
 import javax.validation.constraints.NotNull;
 
 public class AddToCartBinding {
-    private Integer id;
+    private Long id;
     private @NotNull Integer productId;
     private @NotNull Integer quantity;
 
@@ -20,11 +20,11 @@ public class AddToCartBinding {
                 ",";
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
