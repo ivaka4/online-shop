@@ -9,8 +9,8 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductBindingModel {
-    @NotNull
-    @Min(1)
+    @NotNull(message = "Quantity cannot be null")
+    @Min(value = 1,message = "Quantity must be positive number")
     private  Integer quantity;
 
     public Integer getQuantity() {

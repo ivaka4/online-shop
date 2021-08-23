@@ -8,7 +8,7 @@
 <th:block th:include="~{common/header}"></th:block>
 <!-- Section-->
 <section class="py-5">
-    <form th:object="${productEditBindingModel}" class="form" th:method="post">
+    <form th:object="${productAddBindingModel}" action="/store/product/new" class="form" th:method="post">
         <div class="form-group">
 
             <div class="col-xs-6">
@@ -25,11 +25,11 @@
         <div class="form-group">
 
             <div class="col-xs-6">
-                <label for="name"><h4>Product Name</h4></label>
+                <label for="productName"><h4>Product Name</h4></label>
                 <input th:value="*{productName}" type="text" class="form-control"
-                       name="name"
-                       id="name"
-                       title="enter your quantity">
+                       name="productName"
+                       id="productName"
+                       title="enter your product name">
                 <small class="span-info-text-error"
                        th:each="error : ${#fields.errors('productName')}"
                        th:text="${error}"></small>

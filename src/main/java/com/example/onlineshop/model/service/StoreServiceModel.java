@@ -1,5 +1,6 @@
 package com.example.onlineshop.model.service;
 
+import com.example.onlineshop.model.binding.store.NewProductBindingModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,6 +11,11 @@ import lombok.Setter;
 public class StoreServiceModel {
 
     private Long id;
-    private String name;
-    private int qunatity;
+    private String productName;
+    private int quantity;
+
+    public StoreServiceModel(NewProductBindingModel newProductBindingModel) {
+        this.setProductName(newProductBindingModel.getProductName());
+        this.setQuantity(newProductBindingModel.getQuantity());
+    }
 }
