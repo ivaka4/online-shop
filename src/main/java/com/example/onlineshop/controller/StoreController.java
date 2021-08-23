@@ -30,7 +30,7 @@ public class StoreController {
     StoreService storeService;
 
 
-    @GetMapping("/")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView getProducts() {
         ModelAndView modelAndView = new ModelAndView("shop");
         List<StoreViewModel> store = storeService.getProductsInStock();
@@ -40,7 +40,7 @@ public class StoreController {
         return modelAndView;
     }
 
-    @GetMapping("/update/{productID}")
+    @RequestMapping(value = "/update/{productID}", method = RequestMethod.GET)
     public ModelAndView updateProductGET(@PathVariable("productID") Long productId, Model model) {
         ModelAndView modelAndView = new ModelAndView("load-product");
 
@@ -52,8 +52,8 @@ public class StoreController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/load/{productID}", method = RequestMethod.POST)
-    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productID") Long productID, @ModelAttribute @Valid ProductBindingModel productBindingModel, BindingResult bindingResult,RedirectAttributes redirectAttributes, HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/loaded/{productID}", method = RequestMethod.POST)
+    public ResponseEntity<ApiResponse> updateProduct(@PathVariable("productID") Long productID, @ModelAttribute @Valid ProductBindingModel productBindingModel, BindingResult bindingResult, RedirectAttributes redirectAttributes, HttpServletResponse response) throws IOException {
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.productBindingModel", productBindingModel);
             redirectAttributes.addFlashAttribute("productEditBindingModel", productBindingModel);
