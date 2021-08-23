@@ -4,6 +4,7 @@ import com.example.onlineshop.exception.cartEx.CartProductNotExistException;
 import com.example.onlineshop.model.binding.cart.AddToCartBinding;
 import com.example.onlineshop.model.entity.CartEntity;
 import com.example.onlineshop.model.entity.StoreEntity;
+import com.example.onlineshop.model.service.StoreServiceModel;
 import com.example.onlineshop.model.view.cart.CartProductViewModel;
 import com.example.onlineshop.model.view.cart.CartViewModel;
 import com.example.onlineshop.repository.CartRepository;
@@ -28,8 +29,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void addToCart(AddToCartBinding addToCartBinding, StoreEntity product) {
-        CartEntity cart = new CartEntity(product, addToCartBinding.getQuantity());
+    public void addToCart(AddToCartBinding addToCartBinding, StoreServiceModel product) {
+        CartEntity cart = new CartEntity(this.modelMapper.map(product, StoreEntity.class), addToCartBinding.getQuantity());
+        if (product.getId() == null || product.getProductName() == null || addToCartBinding.getQuantity() == 0){
+            throw new CartProductNotExistException("Cannot persist product to the cart");
+        }
+        cart.setCreatedDate(new Date());
         this.cartRepository.saveAndFlush(cart);
     }
 
@@ -50,8 +55,11 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void updateCartProduct(AddToCartBinding addToCartBinding, StoreEntity product) {
+    public void updateCartProduct(AddToCartBinding addToCartBinding, StoreServiceModel product) {
         CartEntity cartEntity = this.cartRepository.getById(addToCartBinding.getId());
+        if (this.cartRepository.getById(addToCartBinding.getId()).getProduct().getId() != product.getId()){
+            throw new CartProductNotExistException("Cannot update cart");
+        }
         cartEntity.setQuantity(addToCartBinding.getQuantity());
         cartEntity.setCreatedDate(new Date());
         this.cartRepository.saveAndFlush(cartEntity);

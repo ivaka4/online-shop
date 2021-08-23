@@ -3,7 +3,7 @@ import javax.validation.constraints.NotNull;
 
 public class AddToCartBinding {
     private Long id;
-    private @NotNull Integer productId;
+    private @NotNull Long productId;
     private @NotNull Integer quantity;
 
     public AddToCartBinding() {
@@ -29,11 +29,11 @@ public class AddToCartBinding {
     }
 
 
-    public Integer getProductId() {
+    public Long getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(Long productId) {
         this.productId = productId;
     }
 

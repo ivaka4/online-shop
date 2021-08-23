@@ -10,6 +10,6 @@ import lombok.Setter;
 public class StoreViewModel {
 
     private Long id;
-    private String name;
+    private String productName;
     private int quantity;
 }
