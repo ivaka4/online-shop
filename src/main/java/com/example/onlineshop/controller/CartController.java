@@ -31,7 +31,7 @@ public class CartController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addToCart(@ModelAttribute AddToCartBinding addToCartDto) {
         StoreViewModel product = storeService.getSingleProduct(addToCartDto.getProductId());
-        System.out.println("product to add"+  product.getProductName());
+        System.out.println("product to add "+  product.getProductName());
         cartService.addToCart(addToCartDto, this.modelMapper.map(product, StoreServiceModel.class));
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
 

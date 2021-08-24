@@ -8,6 +8,7 @@ import com.example.onlineshop.model.service.StoreServiceModel;
 import com.example.onlineshop.model.view.cart.CartProductViewModel;
 import com.example.onlineshop.model.view.cart.CartViewModel;
 import com.example.onlineshop.repository.CartRepository;
+import com.example.onlineshop.repository.StoreRepository;
 import com.example.onlineshop.service.CartService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -31,8 +32,12 @@ public class CartServiceImpl implements CartService {
     @Override
     public void addToCart(AddToCartBinding addToCartBinding, StoreServiceModel product) {
         CartEntity cart = new CartEntity(this.modelMapper.map(product, StoreEntity.class), addToCartBinding.getQuantity());
-        if (product.getId() == null || product.getProductName() == null || addToCartBinding.getQuantity() == 0){
+        if (product.getId() == null ||
+                product.getProductName() == null ||
+                addToCartBinding.getQuantity() == 0) {
             throw new CartProductNotExistException("Cannot persist product to the cart");
+        } if (product.getQuantity() < addToCartBinding.getQuantity()){
+            throw new CartProductNotExistException("Cannot persist product with this quantity");
         }
         cart.setCreatedDate(new Date());
         this.cartRepository.saveAndFlush(cart);
@@ -43,8 +48,9 @@ public class CartServiceImpl implements CartService {
         List<CartEntity> cart = this.cartRepository.findAll();
         List<CartProductViewModel> viewModels = this.modelMapper
                 .map(cart,
-                        new TypeToken<List<CartProductViewModel>>(){}
-                .getType());
+                        new TypeToken<List<CartProductViewModel>>() {
+                        }
+                                .getType());
         return new CartViewModel(viewModels);
     }
 
@@ -57,8 +63,10 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCartProduct(AddToCartBinding addToCartBinding, StoreServiceModel product) {
         CartEntity cartEntity = this.cartRepository.getById(addToCartBinding.getId());
-        if (this.cartRepository.getById(addToCartBinding.getId()).getProduct().getId() != product.getId()){
+        if (this.cartRepository.getById(addToCartBinding.getId()).getProduct().getId() != product.getId()) {
             throw new CartProductNotExistException("Cannot update cart");
+        } else if (product.getQuantity() < addToCartBinding.getQuantity()){
+            throw new CartProductNotExistException("Cannot update quantity");
         }
         cartEntity.setQuantity(addToCartBinding.getQuantity());
         cartEntity.setCreatedDate(new Date());
@@ -67,7 +75,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void deleteCartProduct(long id) {
-        if (!this.cartRepository.existsById(id)){
+        if (!this.cartRepository.existsById(id)) {
             throw new CartProductNotExistException("Item in the cart with this id: " + id + " not exist.");
         }
         this.cartRepository.deleteById(id);
