@@ -8,7 +8,7 @@
 <th:block th:include="~{common/header}"></th:block>
 <!-- Section-->
 <section class="py-5">
-    <form th:object="${productEditBindingModel}" th:action="@{/store/load/{id}(id = ${productID})}" class="form" th:method="post">
+    <form th:object="${productEditBindingModel}" th:action="@{/store/loaded/{id}(id = ${productID})}" class="form" th:method="post">
         <div class="form-group">
 
             <div class="col-xs-6">
