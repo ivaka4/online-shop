@@ -25,6 +25,6 @@ public class OrderController {
     public ResponseEntity<ApiResponse> placeOrder() {
         CartViewModel cart = this.cartService.listCartItems();
         orderService.completeOrder(cart);
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Request has been accepted"), HttpStatus.CREATED);
     }
 }
