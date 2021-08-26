@@ -1,0 +1,22 @@
+version: "3.7"
+services:
+  online-shop:
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql_db
+    links:
+      - mysql_db:online-shop
+  mysql_db:
+    image: "mysql:8.0"
+    command: 'set password for root@localhost=123123ivaka'
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: online_shop
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123123ivaka
+      MYSQL_ROOT_PASSWORD: 123123ivaka
